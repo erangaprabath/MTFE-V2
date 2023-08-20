@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct homeView: View {
+    @EnvironmentObject private var viewModel:homeViewModel
     @State private var showPortfolio:Bool = false
     var body: some View {
         ZStack{
@@ -15,6 +16,15 @@ struct homeView: View {
                 .ignoresSafeArea()
             VStack{
             homeHeader
+              coinSectionHeader
+                if !showPortfolio{
+                  allCoinsList
+                        .transition(.move(edge: .leading))
+                }
+                if showPortfolio{
+                    porfolioCoinsList
+                        .transition(.move(edge: .trailing))
+                }
                 Spacer(minLength: 0)
             }
         }
@@ -26,7 +36,7 @@ struct homeView_Previews: PreviewProvider {
         NavigationView{
             homeView()
                 .navigationBarHidden(true)
-        }
+        }.environmentObject(dev.homeVm)
     }
 }
 
@@ -54,5 +64,42 @@ extension homeView{
                 }
         }
         .padding(.horizontal)
+    }
+    
+    
+    private var allCoinsList:some View{
+        List{
+            ForEach(viewModel.allCoins) { coin in
+                coinRowView(coin: coin, showHoldingColums: false )
+                    .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+            }
+        }
+        .listStyle(PlainListStyle())
+        
+    }
+    
+    private var porfolioCoinsList:some View{
+        List{
+            ForEach(viewModel.portfolioCoin) { coin in
+                coinRowView(coin: coin, showHoldingColums: true )
+                    .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+            }
+        }
+        .listStyle(PlainListStyle())
+        
+    }
+    private var coinSectionHeader:some View{
+        HStack{
+            Text("Coins")
+            Spacer()
+            if showPortfolio{
+                Text("Holdings")
+            }
+            Text("Price")
+                .frame(width: UIScreen.main.bounds.width/3.5,alignment: .trailing)
+
+        }.font(.caption)
+            .foregroundColor(Color.appTheme.secondaryTextColor)
+            .padding(.horizontal)
     }
 }

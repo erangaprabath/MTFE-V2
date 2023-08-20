@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5225C0BD2A91C90C0033BE8B /* coinRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225C0BC2A91C90C0033BE8B /* coinRowView.swift */; };
+		5225C0BF2A91C92D0033BE8B /* previewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225C0BE2A91C92C0033BE8B /* previewProvider.swift */; };
+		52C76ED52A91CDCC00388A48 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C76ED42A91CDCC00388A48 /* Double.swift */; };
+		52C76ED72A91DABF00388A48 /* homeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C76ED62A91DABF00388A48 /* homeViewModel.swift */; };
+		52C76EDA2A91E23000388A48 /* MTFEDataServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C76ED92A91E23000388A48 /* MTFEDataServices.swift */; };
+		52C76EE32A92097E00388A48 /* networkingManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C76EE22A92097E00388A48 /* networkingManger.swift */; };
+		52C76EE62A92139900388A48 /* coinImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C76EE52A92139900388A48 /* coinImageView.swift */; };
+		52C76EE82A9213C400388A48 /* coinImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C76EE72A9213C400388A48 /* coinImageViewModel.swift */; };
+		52C76EEA2A92162F00388A48 /* coinImgeServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C76EE92A92162F00388A48 /* coinImgeServices.swift */; };
 		52EF63812A90C5BA0096A687 /* MTFE_V2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EF63802A90C5BA0096A687 /* MTFE_V2App.swift */; };
 		52EF63852A90C5BB0096A687 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52EF63842A90C5BB0096A687 /* Assets.xcassets */; };
 		52EF63882A90C5BB0096A687 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52EF63872A90C5BB0096A687 /* Preview Assets.xcassets */; };
@@ -18,6 +27,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5225C0BC2A91C90C0033BE8B /* coinRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = coinRowView.swift; sourceTree = "<group>"; };
+		5225C0BE2A91C92C0033BE8B /* previewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = previewProvider.swift; sourceTree = "<group>"; };
+		52C76ED42A91CDCC00388A48 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		52C76ED62A91DABF00388A48 /* homeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = homeViewModel.swift; path = "MTFE-V2/Extension/homeViewModel.swift"; sourceTree = SOURCE_ROOT; };
+		52C76ED92A91E23000388A48 /* MTFEDataServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTFEDataServices.swift; sourceTree = "<group>"; };
+		52C76EE22A92097E00388A48 /* networkingManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = networkingManger.swift; sourceTree = "<group>"; };
+		52C76EE52A92139900388A48 /* coinImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = coinImageView.swift; sourceTree = "<group>"; };
+		52C76EE72A9213C400388A48 /* coinImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = coinImageViewModel.swift; sourceTree = "<group>"; };
+		52C76EE92A92162F00388A48 /* coinImgeServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = coinImgeServices.swift; sourceTree = "<group>"; };
 		52EF637D2A90C5BA0096A687 /* MTFE-V2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MTFE-V2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52EF63802A90C5BA0096A687 /* MTFE_V2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTFE_V2App.swift; sourceTree = "<group>"; };
 		52EF63842A90C5BB0096A687 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -40,6 +58,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52C76ED82A91E20E00388A48 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				52C76ED92A91E23000388A48 /* MTFEDataServices.swift */,
+				52C76EE92A92162F00388A48 /* coinImgeServices.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		52C76EE12A92093200388A48 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				52C76EE22A92097E00388A48 /* networkingManger.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		52C76EE42A92137F00388A48 /* Imges */ = {
+			isa = PBXGroup;
+			children = (
+				52C76EE52A92139900388A48 /* coinImageView.swift */,
+				52C76EE72A9213C400388A48 /* coinImageViewModel.swift */,
+			);
+			path = Imges;
+			sourceTree = "<group>";
+		};
 		52EF63742A90C5B90096A687 = {
 			isa = PBXGroup;
 			children = (
@@ -59,6 +103,8 @@
 		52EF637F2A90C5BA0096A687 /* MTFE-V2 */ = {
 			isa = PBXGroup;
 			children = (
+				52C76EE12A92093200388A48 /* Utilities */,
+				52C76ED82A91E20E00388A48 /* Services */,
 				52EF63A02A90D7040096A687 /* Model */,
 				52EF63922A90CCA40096A687 /* Core */,
 				52EF638E2A90C7360096A687 /* Extension */,
@@ -81,6 +127,8 @@
 			isa = PBXGroup;
 			children = (
 				52EF638F2A90C75E0096A687 /* colorExtension.swift */,
+				5225C0BE2A91C92C0033BE8B /* previewProvider.swift */,
+				52C76ED42A91CDCC00388A48 /* Double.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -107,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				52EF63982A90CD460096A687 /* homeView.swift */,
+				5225C0BC2A91C90C0033BE8B /* coinRowView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -114,6 +163,7 @@
 		52EF63952A90CCF10096A687 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				52C76ED62A91DABF00388A48 /* homeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -121,6 +171,7 @@
 		52EF639A2A90CE3D0096A687 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				52C76EE42A92137F00388A48 /* Imges */,
 				52EF639D2A90D2D90096A687 /* CircleButton */,
 			);
 			path = Components;
@@ -159,6 +210,8 @@
 			dependencies = (
 			);
 			name = "MTFE-V2";
+			packageProductDependencies = (
+			);
 			productName = "MTFE-V2";
 			productReference = 52EF637D2A90C5BA0096A687 /* MTFE-V2.app */;
 			productType = "com.apple.product-type.application";
@@ -187,6 +240,8 @@
 				Base,
 			);
 			mainGroup = 52EF63742A90C5B90096A687;
+			packageReferences = (
+			);
 			productRefGroup = 52EF637E2A90C5BA0096A687 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -213,12 +268,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52C76EE62A92139900388A48 /* coinImageView.swift in Sources */,
+				5225C0BD2A91C90C0033BE8B /* coinRowView.swift in Sources */,
 				52EF63A22A90D71C0096A687 /* coin.swift in Sources */,
 				52EF63902A90C75E0096A687 /* colorExtension.swift in Sources */,
+				52C76ED72A91DABF00388A48 /* homeViewModel.swift in Sources */,
+				52C76EE82A9213C400388A48 /* coinImageViewModel.swift in Sources */,
 				52EF63992A90CD460096A687 /* homeView.swift in Sources */,
+				52C76EDA2A91E23000388A48 /* MTFEDataServices.swift in Sources */,
 				52EF639C2A90CE660096A687 /* circleButtonView.swift in Sources */,
+				5225C0BF2A91C92D0033BE8B /* previewProvider.swift in Sources */,
 				52EF63812A90C5BA0096A687 /* MTFE_V2App.swift in Sources */,
+				52C76EEA2A92162F00388A48 /* coinImgeServices.swift in Sources */,
+				52C76ED52A91CDCC00388A48 /* Double.swift in Sources */,
 				52EF639F2A90D3080096A687 /* circleButtonAnimationView.swift in Sources */,
+				52C76EE32A92097E00388A48 /* networkingManger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

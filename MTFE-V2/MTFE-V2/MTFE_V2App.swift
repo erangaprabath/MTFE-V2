@@ -9,12 +9,13 @@ import SwiftUI
 
 @main
 struct MTFE_V2App: App {
+    @StateObject private var viewModel = homeViewModel()
     var body: some Scene {
         WindowGroup {
             NavigationView{
                 homeView()
                     .navigationBarHidden(true)
-            }
+            }.environmentObject(viewModel)
         }
     }
 }
