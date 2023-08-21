@@ -16,7 +16,12 @@ struct homeView: View {
                 .ignoresSafeArea()
             VStack{
             homeHeader
+                homeStatView(showPortfolio: $showPortfolio)
+                
+                searchBarView(searchText:$viewModel.searcText)
+           
               coinSectionHeader
+                
                 if !showPortfolio{
                   allCoinsList
                         .transition(.move(edge: .leading))
