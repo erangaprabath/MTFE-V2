@@ -8,8 +8,6 @@
 import Foundation
 import Combine
 
-
-
 class MTFEDataServices {
     
     @Published var allCoins: [CoinModel] = []

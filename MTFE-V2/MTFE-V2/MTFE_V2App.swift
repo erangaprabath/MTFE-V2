@@ -10,6 +10,12 @@ import SwiftUI
 @main
 struct MTFE_V2App: App {
     @StateObject private var viewModel = homeViewModel()
+    
+    init(){
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor : UIColor(Color.appTheme.accent)]
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor : UIColor(Color.appTheme.accent)]
+
+    }
     var body: some Scene {
         WindowGroup {
             NavigationView{
