@@ -10,7 +10,7 @@ import Combine
 
 class networkingManger {
     
-    enum networkingError:LocalizedError{
+    enum networkingError:Error{
         case badURLResponse(url:URL)
         case unKnown
         
@@ -35,7 +35,7 @@ class networkingManger {
     static func handelUrlRespose(output:URLSession.DataTaskPublisher.Output,url:URL ) throws -> Data{
         guard let respose = output.response as? HTTPURLResponse,
               respose.statusCode >= 200 && respose.statusCode < 300 else {
-            throw networkingManger.networkingError.badURLResponse(url:  url )
+            throw networkingManger.networkingError.badURLResponse(url:url)
         }
         return output.data
     }
