@@ -11,6 +11,8 @@ struct homeView: View {
     @EnvironmentObject private var viewModel:homeViewModel
     @State private var showPortfolio:Bool = false
     @State private var showPortfolioView:Bool = false
+    @State private var selectedCoin:CoinModel? = nil
+    @State private var showDetailsView:Bool = false
    
     
     var body: some View {
@@ -26,7 +28,7 @@ struct homeView: View {
                 
                 homeStatView(showPortfolio: $showPortfolio)
                 
-                searchBarView(searchText:$viewModel.searcText)
+                searchBarView(searchText:$viewModel.searchText)
            
               coinSectionHeader
                 
@@ -40,7 +42,14 @@ struct homeView: View {
                 }
                 Spacer(minLength: 0)
             }
-        }
+        }.background(
+            NavigationLink(
+                destination: detsilsLoadinView(coin: $selectedCoin) ,
+                isActive: $showDetailsView,
+                label: {
+                    EmptyView()
+                })
+        )
     }
 }
 
@@ -90,10 +99,22 @@ extension homeView{
             ForEach(viewModel.allCoins) { coin in
                 coinRowView(coin: coin, showHoldingColums: false )
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                    .onTapGesture {
+                    segue(coin: coin)
+                    }
+                
             }
         }
         .listStyle(PlainListStyle())
+        .refreshable {
+            viewModel.reloadData()
+            
+        }
         
+    }
+    private func segue(coin:CoinModel){
+        selectedCoin = coin
+        showDetailsView.toggle()
     }
     
     private var porfolioCoinsList:some View{
@@ -101,20 +122,55 @@ extension homeView{
             ForEach(viewModel.portfolioCoin) { coin in
                 coinRowView(coin: coin, showHoldingColums: true )
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                    .onTapGesture {
+                        segue(coin: coin)
+                    }
             }
         }
         .listStyle(PlainListStyle())
+       
         
     }
     private var coinSectionHeader:some View{
         HStack{
-            Text("Coins")
+            HStack(spacing: 4.0){
+                Text("Coins")
+                Image(systemName: "chevron.down")
+                    .opacity((viewModel.sortOption == .rank || viewModel.sortOption == .rankedReversed ) ? 1.0 : 0 )
+                    .rotationEffect(Angle(degrees: viewModel.sortOption == .rank ? 0 : 180))
+            }.onTapGesture {
+                withAnimation(.default){
+                    viewModel.sortOption = viewModel.sortOption == .rank ? .rankedReversed : .rank
+                }
+            }
             Spacer()
             if showPortfolio{
-                Text("Holdings")
+                HStack(spacing: 4.0){
+                    Text("Holdings")
+                    Image(systemName: "chevron.down")
+                        .opacity((viewModel.sortOption == .holdings || viewModel.sortOption == .holdingReversed) ? 1.0 : 0 )
+                        .rotationEffect(Angle(degrees: viewModel.sortOption == .holdings ? 0 : 180))
+                }.onTapGesture {
+                    withAnimation(.default){
+                        viewModel.sortOption = viewModel.sortOption == .holdings ? .holdingReversed : .holdings
+                    }
+                }
+                
             }
-            Text("Price")
-                .frame(width: UIScreen.main.bounds.width/3.5,alignment: .trailing)
+            HStack(spacing: 4.0){
+                Text("Price")
+                Image(systemName: "chevron.down")
+                    .opacity((viewModel.sortOption == .price || viewModel.sortOption == .priceReversed) ? 1.0 : 0 )
+                    .rotationEffect(Angle(degrees: viewModel.sortOption == .price ? 0 : 180))
+            } .frame(width: UIScreen.main.bounds.width/3.5,alignment: .trailing)
+                .onTapGesture {
+                    withAnimation(.default){
+                        viewModel.sortOption = viewModel.sortOption == .price ? .priceReversed : .price
+                    }
+                }
+
+            
+           
 
         }.font(.caption)
             .foregroundColor(Color.appTheme.secondaryTextColor)

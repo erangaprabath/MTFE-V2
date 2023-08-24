@@ -18,7 +18,7 @@ class marketDataService{
         getdata()
     }
     
-    private func getdata(){
+  func getdata(){
         guard let url = URL(string: "https://api.coingecko.com/api/v3/global")
         else{ return }
         

@@ -17,7 +17,7 @@ struct portfolioView: View {
         NavigationView{
             ScrollView{
                 VStack(alignment: .leading,spacing:0){
-                    searchBarView(searchText: $viewModel.searcText)
+                    searchBarView(searchText: $viewModel.searchText)
                     coinLogoList
                     
                     if selectedCoin != nil{
@@ -51,14 +51,14 @@ extension portfolioView{
     private var coinLogoList:some View{
         ScrollView(.horizontal,showsIndicators: false,content:  {
             LazyHStack(spacing: 10) {
-                ForEach(viewModel.allCoins){
+                ForEach(viewModel.searchText.isEmpty ? viewModel.portfolioCoin : viewModel.allCoins){
                     coins in
                     coinLogoView(coin: coins)
                         .frame(width: 75)
                         .padding(4)
                         .onTapGesture {
                             withAnimation(.easeIn){
-                                selectedCoin = coins
+                             updateSelectedCoin(coin: coins)
                             }
                         }
                         .background(
@@ -70,6 +70,24 @@ extension portfolioView{
             .padding(.vertical,4)
             .padding(.leading)
         })
+        .onChange(of: viewModel.searchText, perform: {
+            value in
+            if value == ""{
+                removeSelectedCoin()
+            }
+        })
+    }
+    
+    private func updateSelectedCoin(coin:CoinModel){
+        selectedCoin = coin
+        
+     if let portfolio = viewModel.portfolioCoin.first(where: {$0.id == coin.id}),
+        let amount = portfolio.currentHoldings{
+         quantity = "\(amount)"
+     }else {
+         quantity = ""
+     }
+        
     }
     
     private func getCurrentvalue() -> Double{
@@ -107,9 +125,11 @@ extension portfolioView{
     }
     
     private func saveButtonPressed(){
-        guard let coin = selectedCoin else { return }
+        guard let coin = selectedCoin,
+            let amount = Double(quantity)
+            else { return }
         
-        
+        viewModel.updatePortfolio(coin: coin, amount: amount)
         
         
         withAnimation(.easeIn){
@@ -128,7 +148,7 @@ extension portfolioView{
     
     private func removeSelectedCoin(){
         selectedCoin = nil
-        viewModel.searcText = ""
+        viewModel.searchText = ""
     }
 }
 
