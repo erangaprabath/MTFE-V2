@@ -12,6 +12,10 @@ import Combine
 class DetaliViewModel:ObservableObject{
     @Published var overViewStatistics:[Stastistic] = []
     @Published var additionalStatistics:[Stastistic] = []
+    @Published var discription:String? = nil
+    @Published var websiteURL:String? = nil
+    @Published var reditURL:String? = nil
+
     @Published var coin:CoinModel
     private let coinDetailsService:coinDetailsDataService
     private var cancellable = Set<AnyCancellable>()
@@ -30,9 +34,16 @@ class DetaliViewModel:ObservableObject{
         coinDetailsService.$coinDetalis
             .combineLatest($coin)
             .map(mapAdditionalAndOverViewDetails)
-            .sink { (returnCoinDetail) in
-                self.overViewStatistics = returnCoinDetail.overvew
-                self.additionalStatistics = returnCoinDetail.additional
+            .sink {[weak self] (returnCoinDetail) in
+                self?.overViewStatistics = returnCoinDetail.overvew
+                self?.additionalStatistics = returnCoinDetail.additional
+            }
+            .store(in: &cancellable)
+        coinDetailsService.$coinDetalis
+            .sink { [weak self](returncoinDetails) in
+                self?.discription = returncoinDetails?.readableDescription
+                self?.websiteURL = returncoinDetails?.links?.homepage?.first
+                self?.reditURL = returncoinDetails?.links?.subredditURL
             }
             .store(in: &cancellable)
     }

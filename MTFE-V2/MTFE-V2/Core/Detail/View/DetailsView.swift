@@ -24,6 +24,7 @@ struct detsilsLoadinView:View{
 struct DetailsView: View {
     
     @StateObject private var viewModel:DetaliViewModel
+    @State private var showMoreDetails:Bool =  false
     private let column:[GridItem] = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -44,13 +45,14 @@ struct DetailsView: View {
                 charView(coin: viewModel.coin)
                     .padding(.vertical)
                 VStack(spacing: 20.0){
-                   
                     overViewTitel
                     Divider()
+                    descriptionView
                     overViewGridView
                     additionalTitel
                     Divider()
                     additionalGridView
+                    websiteView
                 }
                 .padding()
             }
@@ -86,7 +88,7 @@ extension DetailsView{
     
     }
     private var overViewTitel:some View{
-        Text("OverView")
+        Text("Overview")
             .font(.title)
             .bold()
             .foregroundColor(Color.appTheme.accent)
@@ -126,5 +128,50 @@ extension DetailsView{
 
             })
 
+    }
+    private var descriptionView:some View{
+        ZStack{
+            if let coinDescription = viewModel.discription,!coinDescription.isEmpty{
+                
+                VStack(alignment: .leading){
+                    Text(coinDescription)
+                        .font(.callout)
+                        .foregroundColor(Color.appTheme.secondaryTextColor)
+                        .lineLimit(showMoreDetails ? nil : 3)
+                    Button (action:{
+                        withAnimation(.easeInOut){
+                            showMoreDetails.toggle()
+                        }
+                    }, label: {
+                        Text(showMoreDetails ? "Less" : "Read more..")
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .padding(.vertical,4)
+                    })
+                    .accentColor(.blue)
+
+                }
+                .frame(maxWidth:.infinity)
+                .frame(alignment: .leading)
+            }
+                
+        }
+        
+    }
+    private var websiteView:some View{
+        VStack(alignment: .leading, spacing: 10.0){
+            if let website = viewModel.websiteURL,
+               let url = URL(string: website){
+                Link("Website",destination: url)
+            }
+            
+            if let reditwebsite = viewModel.reditURL,
+               let url = URL(string: reditwebsite){
+                Link("Redit",destination: url)
+            }
+            
+            
+        }.accentColor(.blue)
+            .frame(maxWidth: .infinity,alignment:.leading)
     }
 }
