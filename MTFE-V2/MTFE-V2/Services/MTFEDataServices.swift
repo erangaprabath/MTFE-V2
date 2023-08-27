@@ -24,6 +24,7 @@ class MTFEDataServices {
         
         coinsSubscription = networkingManger.donwload(url: url)
             .decode(type: [CoinModel].self, decoder: JSONDecoder())
+            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: networkingManger.handelCompletion,receiveValue: { [weak self] (returnCoins) in
                 self?.allCoins = returnCoins
                 self?.coinsSubscription?.cancel()

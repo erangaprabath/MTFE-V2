@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Charts
 
 struct charView: View {
     
@@ -114,4 +115,5 @@ extension charView{
             Text(endingdate.asShortDateString())
         }
     }
+
 }

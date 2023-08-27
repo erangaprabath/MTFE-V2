@@ -18,12 +18,16 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             List{
+               
                 appDetails
                 CoinGecko
                 Dev
             }
             .accentColor(.blue)
             .navigationTitle("Settings")
+            .gesture(DragGesture())
+            
+             
         }
     }
 }

@@ -14,6 +14,8 @@ struct homeView: View {
     @State private var selectedCoin:CoinModel? = nil
     @State private var showDetailsView:Bool = false
     @State private var settings:Bool = false
+    let maxWidthForIpad:CGFloat = 400
+ 
    
     
     var body: some View {
@@ -38,8 +40,22 @@ struct homeView: View {
                         .transition(.move(edge: .leading))
                 }
                 if showPortfolio{
-                    porfolioCoinsList
-                        .transition(.move(edge: .trailing))
+                    ZStack(alignment:.bottomTrailing){
+                        if viewModel.portfolioCoin.isEmpty && viewModel.searchText.isEmpty{
+                            withAnimation(.spring()){
+                                showHints
+                                
+                                  
+                                
+                            }
+                        }
+                        else{
+                            porfolioCoinsList
+                        }
+                        
+                    }.frame(maxHeight: .infinity)
+                       
+                    .transition(.move(edge: .trailing))
                 }
                 Spacer(minLength: 0)
             }.sheet(isPresented: $settings) {
@@ -180,5 +196,20 @@ extension homeView{
         }.font(.caption)
             .foregroundColor(Color.appTheme.secondaryTextColor)
             .padding(.horizontal)
+    }
+    private var showHints:some View{
+        ZStack{
+            Color.appTheme.red
+            Text("Click The + Icon To Buy Coins 🙂".uppercased())
+                .foregroundColor(Color.appTheme.accent)
+                .font(.headline)
+                .multilineTextAlignment(.center)
+             
+            
+        }.frame(maxWidth: maxWidthForIpad)
+            .frame(maxWidth: maxWidthForIpad)
+            .frame(height: 100)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .padding(50)
     }
 }
