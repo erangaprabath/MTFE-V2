@@ -11,6 +11,11 @@ struct homeView: View {
     @EnvironmentObject private var viewModel:homeViewModel
     @State private var showPortfolio:Bool = false
     @State private var showPortfolioView:Bool = false
+    @State private var selectedCoin:CoinModel? = nil
+    @State private var showDetailsView:Bool = false
+    @State private var settings:Bool = false
+    let maxWidthForIpad:CGFloat = 400
+ 
    
     
     var body: some View {
@@ -26,7 +31,7 @@ struct homeView: View {
                 
                 homeStatView(showPortfolio: $showPortfolio)
                 
-                searchBarView(searchText:$viewModel.searcText)
+                searchBarView(searchText:$viewModel.searchText)
            
               coinSectionHeader
                 
@@ -35,12 +40,35 @@ struct homeView: View {
                         .transition(.move(edge: .leading))
                 }
                 if showPortfolio{
-                    porfolioCoinsList
-                        .transition(.move(edge: .trailing))
+                    ZStack(alignment:.bottomTrailing){
+                        if viewModel.portfolioCoin.isEmpty && viewModel.searchText.isEmpty{
+                            withAnimation(.spring()){
+                                showHints
+                                
+                                  
+                                
+                            }
+                        }
+                        else{
+                            porfolioCoinsList
+                        }
+                        
+                    }.frame(maxHeight: .infinity)
+                       
+                    .transition(.move(edge: .trailing))
                 }
                 Spacer(minLength: 0)
+            }.sheet(isPresented: $settings) {
+                SettingsView()
             }
-        }
+        }.background(
+            NavigationLink(
+                destination: detsilsLoadinView(coin: $selectedCoin) ,
+                isActive: $showDetailsView,
+                label: {
+                    EmptyView()
+                })
+        )
     }
 }
 
@@ -62,6 +90,8 @@ extension homeView{
                 .onTapGesture {
                     if showPortfolio{
                         showPortfolioView.toggle()
+                    }else{
+                        settings.toggle()
                     }
                 }
                 .background(
@@ -90,10 +120,22 @@ extension homeView{
             ForEach(viewModel.allCoins) { coin in
                 coinRowView(coin: coin, showHoldingColums: false )
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                    .onTapGesture {
+                    segue(coin: coin)
+                    }
+                
             }
         }
         .listStyle(PlainListStyle())
+        .refreshable {
+            viewModel.reloadData()
+            
+        }
         
+    }
+    private func segue(coin:CoinModel){
+        selectedCoin = coin
+        showDetailsView.toggle()
     }
     
     private var porfolioCoinsList:some View{
@@ -101,23 +143,73 @@ extension homeView{
             ForEach(viewModel.portfolioCoin) { coin in
                 coinRowView(coin: coin, showHoldingColums: true )
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
+                    .onTapGesture {
+                        segue(coin: coin)
+                    }
             }
         }
         .listStyle(PlainListStyle())
+       
         
     }
     private var coinSectionHeader:some View{
         HStack{
-            Text("Coins")
+            HStack(spacing: 4.0){
+                Text("Coins")
+                Image(systemName: "chevron.down")
+                    .opacity((viewModel.sortOption == .rank || viewModel.sortOption == .rankedReversed ) ? 1.0 : 0 )
+                    .rotationEffect(Angle(degrees: viewModel.sortOption == .rank ? 0 : 180))
+            }.onTapGesture {
+                withAnimation(.default){
+                    viewModel.sortOption = viewModel.sortOption == .rank ? .rankedReversed : .rank
+                }
+            }
             Spacer()
             if showPortfolio{
-                Text("Holdings")
+                HStack(spacing: 4.0){
+                    Text("Holdings")
+                    Image(systemName: "chevron.down")
+                        .opacity((viewModel.sortOption == .holdings || viewModel.sortOption == .holdingReversed) ? 1.0 : 0 )
+                        .rotationEffect(Angle(degrees: viewModel.sortOption == .holdings ? 0 : 180))
+                }.onTapGesture {
+                    withAnimation(.default){
+                        viewModel.sortOption = viewModel.sortOption == .holdings ? .holdingReversed : .holdings
+                    }
+                }
+                
             }
-            Text("Price")
-                .frame(width: UIScreen.main.bounds.width/3.5,alignment: .trailing)
+            HStack(spacing: 4.0){
+                Text("Price")
+                Image(systemName: "chevron.down")
+                    .opacity((viewModel.sortOption == .price || viewModel.sortOption == .priceReversed) ? 1.0 : 0 )
+                    .rotationEffect(Angle(degrees: viewModel.sortOption == .price ? 0 : 180))
+            } .frame(width: UIScreen.main.bounds.width/3.5,alignment: .trailing)
+                .onTapGesture {
+                    withAnimation(.default){
+                        viewModel.sortOption = viewModel.sortOption == .price ? .priceReversed : .price
+                    }
+                }
+
+            
+           
 
         }.font(.caption)
             .foregroundColor(Color.appTheme.secondaryTextColor)
             .padding(.horizontal)
+    }
+    private var showHints:some View{
+        ZStack{
+            Color.appTheme.red
+            Text("Click The + Icon To Buy Coins 🙂".uppercased())
+                .foregroundColor(Color.appTheme.accent)
+                .font(.headline)
+                .multilineTextAlignment(.center)
+             
+            
+        }.frame(maxWidth: maxWidthForIpad)
+            .frame(maxWidth: maxWidthForIpad)
+            .frame(height: 100)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .padding(50)
     }
 }

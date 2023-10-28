@@ -24,11 +24,12 @@ class networkingManger {
     
     static func donwload (url:URL) -> AnyPublisher <Data, Error> {
       return URLSession.shared.dataTaskPublisher(for: url)
-            .subscribe(on: DispatchQueue.global(qos: .default))
+//            .subscribe(on: DispatchQueue.global(qos: .default))
             .tryMap({
                 try handelUrlRespose(output: $0,url: url)
             })
-            .receive(on: DispatchQueue.main)
+//            .receive(on: DispatchQueue.main)
+            .retry(3)
             .eraseToAnyPublisher()
     }
     
